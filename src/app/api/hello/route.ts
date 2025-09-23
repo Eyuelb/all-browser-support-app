@@ -9,9 +9,10 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
-  const body = await request.json();
+  const body = await request.formData();
+  console.log(body.get('text'))
   return NextResponse.json({
-    message: `You sent: ${body.text}`,
+    message: `You sent: ${body.get('text')}`,
     time: new Date().toISOString(),
   });
 }

@@ -9,12 +9,12 @@ document.getElementById("getBtn").addEventListener("click", async () => {
 // Call POST API
 document.getElementById("postBtn").addEventListener("click", async () => {
   const text = document.getElementById("inputText").value;
+
+  const body = new FormData();
+  body.append("text", text);
   const res = await fetch("/api/hello", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ text }),
+    body,
   });
   const data = await res.json();
   document.getElementById("output").textContent =
