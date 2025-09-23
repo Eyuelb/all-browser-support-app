@@ -1,6 +1,4 @@
 // app/api/hello/route.ts
-export const runtime = 'nodejs'
-
 import { NextResponse } from "next/server";
 
 export async function GET() {
