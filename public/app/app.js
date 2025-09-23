@@ -10,11 +10,13 @@ document.getElementById("getBtn").addEventListener("click", async () => {
 document.getElementById("postBtn").addEventListener("click", async () => {
   const text = document.getElementById("inputText").value;
 
-  const body = new FormData();
+  const body = new URLSearchParams();
   body.append("text", text);
+
   const res = await fetch("/api/hello", {
     method: "POST",
-    body,
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: body.toString(),
   });
   const data = await res.json();
   document.getElementById("output").textContent =
