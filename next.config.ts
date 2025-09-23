@@ -3,13 +3,23 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   output: "standalone",
   async redirects() {
-    return [
-      {
-        source: "/pass",
-        destination: "/app/index.html",
-        permanent: false,
-      },
-    ];
+   return [
+    {
+      source: "/v2",
+      destination: "/app/index.html",
+      permanent: false,
+    },
+    {
+      source: "/v2/about",
+      destination: "/app/about.html",
+      permanent: false,
+    },
+    {
+      source: "/v2/contact",
+      destination: "/app/contact.html",
+      permanent: false,
+    },
+  ];
   },
 };
 

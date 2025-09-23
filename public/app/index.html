@@ -1,11 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    hello there
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Home</title>
+    <link rel="stylesheet" href="/app/style.css" />
+  </head>
+  <body>
+    <h1>Static HTML + Next.js API Demo</h1>
+
+    <div>
+      <button id="getBtn">Call GET API</button>
+    </div>
+
+    <div style="margin-top: 10px">
+      <input
+        type="text"
+        id="inputText"
+        placeholder="Write something to send to POST API"
+      />
+      <button id="postBtn">Call POST API</button>
+    </div>
+
+    <div id="output"></div>
+    <nav>
+      <a href="/app/about.html">About</a>
+      <a href="/app/contact.html">Contact</a>
+    </nav>
+
+    <script src="/app/app.js"></script>
+  </body>
 </html>
