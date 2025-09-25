@@ -1,0 +1,38 @@
+{
+  "common": {
+    "hello": "Hello",
+    "play": "Play",
+    "wallet": "Wallet",
+    "history": "History",
+    "stats": "Stats",
+    "settings": "Settings",
+    "deposit": "Deposit",
+    "instructions": "Instructions",
+    "inviteFriends": "+ Invite Friends",
+    "playNow": "Play now",
+    "balance": "Balance",
+    "bonus": "Bonus",
+    "version": "v2"
+  },
+  "gameModes": {
+    "mini": "Mini",
+    "sweety": "Sweety",
+    "standard": "Standard",
+    "grand": "Grand"
+  },
+  "currency": {
+    "birr": "Birr",
+    "etb": "ETB"
+  },
+  "navigation": {
+    "play": "Play",
+    "wallet": "Wallet",
+    "history": "History",
+    "stats": "Stats",
+    "settings": "Settings"
+  },
+  "time": {
+    "am": "AM",
+    "pm": "PM"
+  }
+}

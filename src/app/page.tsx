@@ -1,20 +1,35 @@
-import Image from "next/image";
-import Link from "next/link";
+"use client";
+
+import {
+  Header,
+  BackgroundPattern,
+  BalanceCard,
+  InstructionsButton,
+  GameModes,
+  BottomNavigation,
+  Footer,
+} from "@/components";
+import { useLanguage } from "@/i18n";
 
 export default function Home() {
+  const { t } = useLanguage();
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <Link
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="/v2"
-            rel="noopener noreferrer"
-          >
-            To V2
-          </Link>
-        </div>
-      </main>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative">
+      <BackgroundPattern />
+      <Header userName="test" />
+
+      {/* Scrollable content area */}
+      <div className="relative z-0 px-4 sm:px-6 pb-32 max-w-md mx-auto sm:max-w-lg">
+        <BalanceCard balance={0} bonus={0} currency="Birr" />
+        <InstructionsButton />
+        <GameModes />
+      </div>
+
+      {/* Fixed bottom elements with higher z-index */}
+      <div className="fixed bottom-0 left-0 right-0 z-50">
+        <BottomNavigation activeTab={t("navigation.play")} />
+        <Footer />
+      </div>
     </div>
   );
 }

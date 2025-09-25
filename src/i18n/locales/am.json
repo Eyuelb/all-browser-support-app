@@ -1,0 +1,38 @@
+{
+  "common": {
+    "hello": "ሰላም",
+    "play": "መጫወት",
+    "wallet": "ቦርሳ",
+    "history": "ታሪክ",
+    "stats": "ስታቲስቲክስ",
+    "settings": "ቅንብሮች",
+    "deposit": "ገንዘብ አስገባ",
+    "instructions": "መመሪያዎች",
+    "inviteFriends": "+ ጓደኛዎችን ጋብዝ",
+    "playNow": "አሁን ተጫወት",
+    "balance": "ገንዘብ",
+    "bonus": "ጉርሻ",
+    "version": "v2"
+  },
+  "gameModes": {
+    "mini": "ሚኒ",
+    "sweety": "ስዊቲ",
+    "standard": "መደበኛ",
+    "grand": "ታላቅ"
+  },
+  "currency": {
+    "birr": "ብር",
+    "etb": "ETB"
+  },
+  "navigation": {
+    "play": "መጫወት",
+    "wallet": "ቦርሳ",
+    "history": "ታሪክ",
+    "stats": "ስታቲስቲክስ",
+    "settings": "ቅንብሮች"
+  },
+  "time": {
+    "am": "ጠዋት",
+    "pm": "ከሰዓት"
+  }
+}
