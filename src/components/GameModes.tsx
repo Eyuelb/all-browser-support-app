@@ -16,6 +16,11 @@ interface GameMode {
 
 interface GameModesProps {
   gameModes?: GameMode[];
+  onPlayClick?: (gameMode: {
+    name: string;
+    price: string;
+    color: string;
+  }) => void;
 }
 
 const getDefaultGameModes = (t: (key: string) => string): GameMode[] => [
@@ -49,7 +54,7 @@ const getDefaultGameModes = (t: (key: string) => string): GameMode[] => [
   },
 ];
 
-export default function GameModes({ gameModes }: GameModesProps) {
+export default function GameModes({ gameModes, onPlayClick }: GameModesProps) {
   const { t } = useLanguage();
   const { theme } = useTheme();
   const defaultModes = getDefaultGameModes(t);
@@ -88,6 +93,13 @@ export default function GameModes({ gameModes }: GameModesProps) {
                 <Button
                   size="sm"
                   className="bg-white/20 hover:bg-white/30 text-white border-white/30"
+                  onClick={() =>
+                    onPlayClick?.({
+                      name: mode.name,
+                      price: mode.price,
+                      color: mode.color,
+                    })
+                  }
                 >
                   {t("common.playNow")}
                 </Button>

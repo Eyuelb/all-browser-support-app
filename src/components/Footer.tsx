@@ -10,7 +10,7 @@ interface FooterProps {
 
 export default function Footer({
   version,
-  timestamp = "9:58:31 AM",
+  timestamp = new Date().toLocaleTimeString(),
 }: FooterProps) {
   const { t } = useLanguage();
   const { theme } = useTheme();
