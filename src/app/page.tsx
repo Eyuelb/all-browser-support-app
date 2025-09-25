@@ -10,11 +10,20 @@ import {
   Footer,
 } from "@/components";
 import { useLanguage } from "@/i18n";
+import { useTheme } from "@/contexts/ThemeContext";
 
 export default function Home() {
   const { t } = useLanguage();
+  const { theme } = useTheme();
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative">
+    <div
+      className={`min-h-screen relative ${
+        theme === "dark"
+          ? "bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"
+          : "bg-gradient-to-br from-slate-100 via-purple-100 to-slate-200"
+      }`}
+    >
       <BackgroundPattern />
       <Header userName="test" />
 

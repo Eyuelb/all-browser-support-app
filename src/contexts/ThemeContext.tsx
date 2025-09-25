@@ -33,7 +33,9 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
       setThemeState(savedTheme);
     } else {
       // Check system preference
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      const prefersDark = window.matchMedia(
+        "(prefers-color-scheme: dark)"
+      ).matches;
       setThemeState(prefersDark ? "dark" : "light");
     }
     setMounted(true);
@@ -53,7 +55,7 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
   };
 
   const toggleTheme = () => {
-    setThemeState(prev => prev === "light" ? "dark" : "light");
+    setThemeState((prev) => (prev === "light" ? "dark" : "light"));
   };
 
   // Prevent hydration mismatch by not rendering until mounted

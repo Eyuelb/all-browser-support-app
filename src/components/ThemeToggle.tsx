@@ -9,9 +9,9 @@ interface ThemeToggleProps {
   size?: "sm" | "default" | "lg" | "icon";
 }
 
-export default function ThemeToggle({ 
-  className = "", 
-  size = "icon" 
+export default function ThemeToggle({
+  className = "",
+  size = "icon",
 }: ThemeToggleProps) {
   const { theme, toggleTheme } = useTheme();
 
@@ -20,7 +20,9 @@ export default function ThemeToggle({
       variant="ghost"
       size={size}
       onClick={toggleTheme}
-      className={`text-white hover:bg-white/10 ${className}`}
+      className={`hover:bg-white/10 ${
+        theme === "dark" ? "text-white" : "text-slate-700 hover:bg-slate-100"
+      } ${className}`}
       title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
     >
       {theme === "dark" ? (

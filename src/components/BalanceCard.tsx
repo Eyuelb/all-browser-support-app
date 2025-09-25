@@ -3,6 +3,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Coins } from "lucide-react";
 import { useLanguage } from "@/i18n";
+import { useTheme } from "@/contexts/ThemeContext";
 
 interface BalanceCardProps {
   balance?: number;
@@ -16,9 +17,16 @@ export default function BalanceCard({
   currency = "Birr",
 }: BalanceCardProps) {
   const { t } = useLanguage();
+  const { theme } = useTheme();
 
   return (
-    <Card className="mb-6 bg-gradient-to-r from-red-500 to-red-600 border-0 shadow-2xl hover:shadow-red-500/25 transition-all duration-300">
+    <Card
+      className={`mb-6 border-0 shadow-2xl transition-all duration-300 ${
+        theme === "dark"
+          ? "bg-gradient-to-r from-red-500 to-red-600 hover:shadow-red-500/25"
+          : "bg-gradient-to-r from-red-400 to-red-500 hover:shadow-red-400/25"
+      }`}
+    >
       <CardContent className="p-6">
         <div className="flex justify-between items-center">
           <div className="space-y-2">

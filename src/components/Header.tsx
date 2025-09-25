@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { MoreVertical, X, RefreshCw, Plus, Globe } from "lucide-react";
 import { useLanguage } from "@/i18n";
+import { useTheme } from "@/contexts/ThemeContext";
+import ThemeToggle from "./ThemeToggle";
 
 interface HeaderProps {
   userName?: string;
@@ -11,6 +13,7 @@ interface HeaderProps {
 
 export default function Header({ userName = "T@Y" }: HeaderProps) {
   const { t, language, setLanguage } = useLanguage();
+  const { theme } = useTheme();
 
   const toggleLanguage = () => {
     setLanguage(language === "en" ? "am" : "en");
@@ -24,17 +27,26 @@ export default function Header({ userName = "T@Y" }: HeaderProps) {
             {userName.slice(0, 3).toUpperCase()}
           </AvatarFallback>
         </Avatar>
-        <span className="text-white font-medium">
+        <span
+          className={`font-medium ${
+            theme === "dark" ? "text-white" : "text-slate-800"
+          }`}
+        >
           {t("common.hello")}, {userName}!
         </span>
       </div>
 
       <div className="flex items-center gap-2">
+        <ThemeToggle />
         <Button
           variant="ghost"
           size="icon"
           onClick={toggleLanguage}
-          className="text-white hover:bg-white/10"
+          className={`hover:bg-white/10 ${
+            theme === "dark"
+              ? "text-white"
+              : "text-slate-700 hover:bg-slate-100"
+          }`}
           title={language === "en" ? "Switch to Amharic" : "Switch to English"}
         >
           <Globe className="h-5 w-5" />
@@ -42,21 +54,33 @@ export default function Header({ userName = "T@Y" }: HeaderProps) {
         <Button
           variant="ghost"
           size="icon"
-          className="text-white hover:bg-white/10"
+          className={`hover:bg-white/10 ${
+            theme === "dark"
+              ? "text-white"
+              : "text-slate-700 hover:bg-slate-100"
+          }`}
         >
           <MoreVertical className="h-5 w-5" />
         </Button>
         <Button
           variant="ghost"
           size="icon"
-          className="text-white hover:bg-white/10"
+          className={`hover:bg-white/10 ${
+            theme === "dark"
+              ? "text-white"
+              : "text-slate-700 hover:bg-slate-100"
+          }`}
         >
           <X className="h-5 w-5" />
         </Button>
         <Button
           variant="ghost"
           size="icon"
-          className="text-white hover:bg-white/10"
+          className={`hover:bg-white/10 ${
+            theme === "dark"
+              ? "text-white"
+              : "text-slate-700 hover:bg-slate-100"
+          }`}
         >
           <RefreshCw className="h-5 w-5" />
         </Button>

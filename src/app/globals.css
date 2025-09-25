@@ -42,6 +42,17 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+
+  /* Custom bingo app colors */
+  --color-bingo-primary: var(--bingo-primary);
+  --color-bingo-secondary: var(--bingo-secondary);
+  --color-bingo-accent: var(--bingo-accent);
+  --color-bingo-bg: var(--bingo-bg);
+  --color-bingo-bg-secondary: var(--bingo-bg-secondary);
+  --color-bingo-text: var(--bingo-text);
+  --color-bingo-text-secondary: var(--bingo-text-secondary);
+  --color-bingo-card: var(--bingo-card);
+  --color-bingo-border: var(--bingo-border);
 }
 
 :root {
@@ -77,6 +88,17 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  /* Custom bingo app colors for light mode */
+  --bingo-primary: oklch(0.7 0.15 70);
+  --bingo-secondary: oklch(0.6 0.12 60);
+  --bingo-accent: oklch(0.5 0.1 50);
+  --bingo-bg: oklch(0.98 0 0);
+  --bingo-bg-secondary: oklch(0.95 0 0);
+  --bingo-text: oklch(0.2 0 0);
+  --bingo-text-secondary: oklch(0.4 0 0);
+  --bingo-card: oklch(1 0 0);
+  --bingo-border: oklch(0.9 0 0);
 }
 
 .dark {
@@ -111,6 +133,17 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+
+  /* Custom bingo app colors for dark mode */
+  --bingo-primary: oklch(0.7 0.15 70);
+  --bingo-secondary: oklch(0.6 0.12 60);
+  --bingo-accent: oklch(0.5 0.1 50);
+  --bingo-bg: oklch(0.1 0 0);
+  --bingo-bg-secondary: oklch(0.15 0 0);
+  --bingo-text: oklch(0.95 0 0);
+  --bingo-text-secondary: oklch(0.7 0 0);
+  --bingo-card: oklch(0.2 0 0);
+  --bingo-border: oklch(0.3 0 0);
 }
 
 @layer base {

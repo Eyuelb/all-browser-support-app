@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Users } from "lucide-react";
 import { useLanguage } from "@/i18n";
+import { useTheme } from "@/contexts/ThemeContext";
 
 interface GameMode {
   name: string;
@@ -50,13 +51,20 @@ const getDefaultGameModes = (t: (key: string) => string): GameMode[] => [
 
 export default function GameModes({ gameModes }: GameModesProps) {
   const { t } = useLanguage();
+  const { theme } = useTheme();
   const defaultModes = getDefaultGameModes(t);
   const modes = gameModes || defaultModes;
 
   return (
     <div className="mb-8">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-white text-xl font-bold">{t("common.play")}</h2>
+        <h2
+          className={`text-xl font-bold ${
+            theme === "dark" ? "text-white" : "text-slate-800"
+          }`}
+        >
+          {t("common.play")}
+        </h2>
         <Button
           variant="outline"
           className="border-yellow-400 text-yellow-400 hover:bg-yellow-400/10 hover:border-yellow-400/60 transition-all duration-300"
