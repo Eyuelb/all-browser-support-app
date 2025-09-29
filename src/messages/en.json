@@ -1,0 +1,55 @@
+{
+  "welcome": "Welcome",
+  "deposit": "Deposit",
+  "play": "Play",
+  "wallet": "Wallet",
+  "history": "History",
+  "settings": "Settings",
+  "LocaleLayout": {
+    "title": "Bingo Fun - Play Online Bingo Games"
+  },
+  "login": {
+    "title": "Ready to Play?",
+    "subtitle": "Login to start your bingo adventure!",
+    "welcomeTitle": "Welcome to Bingo Fun!",
+    "welcomeDescription": "Join thousands of players in the most exciting bingo games online. Win big prizes and have endless fun!",
+    "features": {
+      "gameModes": "Multiple Game Modes",
+      "realTime": "Real-time Gaming",
+      "prizes": "Instant Prizes & Rewards"
+    },
+    "username": "Username or Email",
+    "password": "Password",
+    "forgotPassword": "Forgot Password?",
+    "loginButton": "Login",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign Up"
+  },
+  "common": {
+    "hello": "Hello",
+    "balance": "Balance",
+    "bonus": "Bonus",
+    "instructions": "Instructions",
+    "inviteFriends": "+ Invite Friends",
+    "playNow": "Play now",
+    "version": "v2"
+  },
+  "gameModes": {
+    "mini": "Mini",
+    "sweety": "Sweety",
+    "standard": "Standard",
+    "grand": "Grand"
+  },
+  "currency": {
+    "birr": "Birr",
+    "etb": "ETB"
+  },
+  "navigation": {
+    "game": "Game",
+    "play": "Play",
+    "wallet": "Wallet",
+    "history": "History",
+    "stats": "Stats",
+    "settings": "Settings"
+  }
+}

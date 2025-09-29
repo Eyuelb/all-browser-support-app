@@ -1,0 +1,55 @@
+{
+  "welcome": "Bienvenue",
+  "deposit": "Dépôt",
+  "play": "Jouer",
+  "wallet": "Portefeuille",
+  "history": "Historique",
+  "settings": "Paramètres",
+  "LocaleLayout": {
+    "title": "Bingo Fun - Jouez aux jeux de bingo en ligne"
+  },
+  "login": {
+    "title": "Prêt à jouer?",
+    "subtitle": "Connectez-vous pour commencer votre aventure bingo!",
+    "welcomeTitle": "Bienvenue dans Bingo Fun!",
+    "welcomeDescription": "Rejoignez des milliers de joueurs dans les jeux de bingo les plus passionnants en ligne. Gagnez de gros prix et amusez-vous sans fin!",
+    "features": {
+      "gameModes": "Modes de jeu multiples",
+      "realTime": "Jeu en temps réel",
+      "prizes": "Prix et récompenses instantanés"
+    },
+    "username": "Nom d'utilisateur ou Email",
+    "password": "Mot de passe",
+    "forgotPassword": "Mot de passe oublié?",
+    "loginButton": "Connexion",
+    "noAccount": "Vous n'avez pas de compte?",
+    "signUp": "S'inscrire"
+  },
+  "common": {
+    "hello": "Bonjour",
+    "balance": "Solde",
+    "bonus": "Bonus",
+    "instructions": "Instructions",
+    "inviteFriends": "+ Inviter des amis",
+    "playNow": "Jouer maintenant",
+    "version": "v2"
+  },
+  "gameModes": {
+    "mini": "Mini",
+    "sweety": "Doux",
+    "standard": "Standard",
+    "grand": "Grand"
+  },
+  "currency": {
+    "birr": "Birr",
+    "etb": "ETB"
+  },
+  "navigation": {
+    "game": "Jeu",
+    "play": "Jouer",
+    "wallet": "Portefeuille",
+    "history": "Historique",
+    "stats": "Statistiques",
+    "settings": "Paramètres"
+  }
+}

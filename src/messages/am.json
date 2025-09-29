@@ -1,0 +1,55 @@
+{
+  "welcome": "እንኳን ደህና መጡ",
+  "deposit": "ተቀማጭ",
+  "play": "ጨዋታ",
+  "wallet": "ኪስ",
+  "history": "ታሪክ",
+  "settings": "ቅንብሮች",
+  "LocaleLayout": {
+    "title": "ቢንጎ አዝናኝ - የቢንጎ ጨዋታዎችን በመስመር ላይ ይጫወቱ"
+  },
+  "login": {
+    "title": "መጫወት ዝግጁ ነዎት?",
+    "subtitle": "የቢንጎ አድቬንቸርዎን ለመጀመር ይግቡ!",
+    "welcomeTitle": "ወደ ቢንጎ አዝናኝ ይሂዱ!",
+    "welcomeDescription": "በጣም አዝናኝ በሆኑ የቢንጎ ጨዋታዎች ውስጥ በሺዎች ተጫዋቾች ይቀላቀሉ። ትልቅ ሽልማቶችን ያሸንፉ እና ማለቂያ የሌለው አዝናኝ ይኑርዎት!",
+    "features": {
+      "gameModes": "በርካታ የጨዋታ ሁነቶች",
+      "realTime": "በትክክለኛ ጊዜ ጨዋታ",
+      "prizes": "ፈጣን ሽልማቶች እና ምንዳዎች"
+    },
+    "username": "የተጠቃሚ ስም ወይም ኢሜይል",
+    "password": "የይለፍ ቃል",
+    "forgotPassword": "የይለፍ ቃል ረሳዎት?",
+    "loginButton": "ግባ",
+    "noAccount": "መለያ የለዎትም?",
+    "signUp": "ተመዝግብ"
+  },
+  "common": {
+    "hello": "ሰላም",
+    "balance": "ገንዘብ",
+    "bonus": "ጉርሻ",
+    "instructions": "መመሪያዎች",
+    "inviteFriends": "+ ጓደኛዎችን ጥሪ",
+    "playNow": "አሁን ተጫውት",
+    "version": "v2"
+  },
+  "gameModes": {
+    "mini": "ሚኒ",
+    "sweety": "ጣፋጭ",
+    "standard": "መደበኛ",
+    "grand": "ታላቅ"
+  },
+  "currency": {
+    "birr": "ብር",
+    "etb": "ETB"
+  },
+  "navigation": {
+    "game": "ጨዋታ",
+    "play": "ጨዋታ",
+    "wallet": "ኪስ",
+    "history": "ታሪክ",
+    "stats": "ስታቲስቲክስ",
+    "settings": "ቅንብሮች"
+  }
+}
