@@ -80,7 +80,7 @@ export default function GameModes({ gameModes, onPlayClick }: GameModesProps) {
       </div>
 
       {/* Game Mode Cards */}
-      <div className="grid grid-cols-2 gap-3 sm:gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
         {modes.map((mode) => (
           <Card
             key={mode.name}

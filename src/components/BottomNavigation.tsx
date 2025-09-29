@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Wallet, List, BarChart3, Settings, Play } from "lucide-react";
+import { Wallet, List, Settings, Play } from "lucide-react";
 import { useLanguage } from "@/i18n";
 import { useTheme } from "@/contexts/ThemeContext";
 
@@ -17,10 +17,9 @@ interface BottomNavigationProps {
 }
 
 const getNavigationItems = (t: (key: string) => string): NavigationItem[] => [
-  { icon: Play, label: t("navigation.play"), active: true },
+  { icon: Play, label: t("navigation.game"), active: true },
   { icon: Wallet, label: t("navigation.wallet") },
   { icon: List, label: t("navigation.history") },
-  { icon: BarChart3, label: t("navigation.stats") },
   { icon: Settings, label: t("navigation.settings") },
 ];
 
@@ -54,7 +53,11 @@ export default function BottomNavigation({
                 : "text-slate-600 hover:text-slate-800 hover:bg-slate-100"
             }`}
           >
-            <item.icon className="h-5 w-5" />
+            <item.icon
+              className={`h-5 w-5 ${
+                item.label === activeTab ? "text-yellow-400" : ""
+              }`}
+            />
             <span className="text-xs">{item.label}</span>
           </Button>
         ))}

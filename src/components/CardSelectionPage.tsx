@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft, RefreshCw, VolumeX } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
+import BottomNavigation from "./BottomNavigation";
+import { useLanguage } from "@/i18n";
 
 interface CardSelectionPageProps {
   gameMode: {
@@ -13,14 +15,19 @@ interface CardSelectionPageProps {
     color: string;
   };
   onBack: () => void;
+  onTabChange?: (tab: string) => void;
+  onStartGame?: () => void;
 }
 
 export default function CardSelectionPage({
   gameMode,
   onBack,
+  onTabChange,
+  onStartGame,
 }: CardSelectionPageProps) {
-  const { theme } = useTheme();
-  const [selectedCards, setSelectedCards] = useState<number[]>([]);
+  const { t } = useLanguage();
+  const { actualTheme } = useTheme();
+  const [selectedCard, setSelectedCard] = useState<number | null>(null);
   const [timeLeft, setTimeLeft] = useState(60); // 60 seconds countdown
   const [isGameStarted, setIsGameStarted] = useState(false);
 
@@ -37,11 +44,7 @@ export default function CardSelectionPage({
   const handleCardSelect = (number: number) => {
     if (isGameStarted) return;
 
-    setSelectedCards((prev) =>
-      prev.includes(number)
-        ? prev.filter((n) => n !== number)
-        : [...prev, number]
-    );
+    setSelectedCard(selectedCard === number ? null : number);
   };
 
   const generateNumbers = () => {
@@ -57,7 +60,7 @@ export default function CardSelectionPage({
   return (
     <div
       className={`min-h-screen relative ${
-        theme === "dark"
+        actualTheme === "dark"
           ? "bg-black"
           : "bg-gradient-to-br from-slate-100 via-purple-100 to-slate-200"
       }`}
@@ -65,14 +68,14 @@ export default function CardSelectionPage({
       {/* Background Pattern */}
       <div
         className={`absolute inset-0 ${
-          theme === "dark" ? "opacity-5" : "opacity-3"
+          actualTheme === "dark" ? "opacity-5" : "opacity-3"
         }`}
       >
         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 0].map((num) => (
           <div
             key={num}
             className={`absolute text-6xl font-bold ${
-              theme === "dark" ? "text-white/10" : "text-slate-400/20"
+              actualTheme === "dark" ? "text-white/10" : "text-slate-400/20"
             }`}
             style={{
               top: `${Math.random() * 80 + 10}%`,
@@ -93,7 +96,7 @@ export default function CardSelectionPage({
             size="icon"
             onClick={onBack}
             className={`${
-              theme === "dark"
+              actualTheme === "dark"
                 ? "text-white hover:bg-white/10"
                 : "text-slate-700 hover:bg-slate-100"
             }`}
@@ -102,7 +105,7 @@ export default function CardSelectionPage({
           </Button>
           <span
             className={`font-medium ${
-              theme === "dark" ? "text-white" : "text-slate-800"
+              actualTheme === "dark" ? "text-white" : "text-slate-800"
             }`}
           >
             Back
@@ -111,7 +114,7 @@ export default function CardSelectionPage({
 
         <h1
           className={`text-lg font-semibold ${
-            theme === "dark" ? "text-white" : "text-slate-800"
+            actualTheme === "dark" ? "text-white" : "text-slate-800"
           }`}
         >
           Choose card
@@ -122,7 +125,7 @@ export default function CardSelectionPage({
             variant="ghost"
             size="icon"
             className={`${
-              theme === "dark"
+              actualTheme === "dark"
                 ? "text-yellow-400 hover:bg-white/10"
                 : "text-yellow-600 hover:bg-slate-100"
             }`}
@@ -133,7 +136,7 @@ export default function CardSelectionPage({
             variant="ghost"
             size="icon"
             className={`${
-              theme === "dark"
+              actualTheme === "dark"
                 ? "text-yellow-400 hover:bg-white/10"
                 : "text-yellow-600 hover:bg-slate-100"
             }`}
@@ -180,7 +183,7 @@ export default function CardSelectionPage({
       <div className="relative z-10 px-4 sm:px-6 mb-6">
         <div className="grid grid-cols-10 gap-1 max-w-md mx-auto">
           {numbers.map((number) => {
-            const isSelected = selectedCards.includes(number);
+            const isSelected = selectedCard === number;
             const isSpecial = number === 35; // Special green card
 
             return (
@@ -195,7 +198,7 @@ export default function CardSelectionPage({
                     ? "bg-green-500 text-white hover:bg-green-600"
                     : isSelected
                     ? "bg-blue-500 text-white hover:bg-blue-600"
-                    : theme === "dark"
+                    : actualTheme === "dark"
                     ? "bg-slate-800 text-white hover:bg-slate-700"
                     : "bg-slate-200 text-slate-800 hover:bg-slate-300"
                 }`}
@@ -211,48 +214,24 @@ export default function CardSelectionPage({
       <div className="relative z-10 px-4 sm:px-6 pb-24">
         <Button
           className={`w-full py-4 text-lg font-semibold ${
-            selectedCards.length === 0 || !isGameStarted
+            selectedCard === null
               ? "bg-slate-600 text-slate-400 cursor-not-allowed"
               : "bg-orange-500 hover:bg-orange-600 text-white"
           }`}
-          disabled={selectedCards.length === 0 || !isGameStarted}
+          disabled={selectedCard === null}
+          onClick={onStartGame}
         >
-          {isGameStarted ? "Start" : `Wait ${timeLeft}s`}
+          Start
         </Button>
       </div>
 
       {/* Bottom Navigation */}
-      <nav
-        className={`fixed bottom-0 left-0 right-0 backdrop-blur-sm border-t ${
-          theme === "dark"
-            ? "bg-slate-800/90 border-slate-700"
-            : "bg-white/90 border-slate-200"
-        }`}
-      >
-        <div className="flex justify-around py-2">
-          {[
-            { icon: "🎮", label: "Games" },
-            { icon: "💳", label: "Wallet" },
-            { icon: "📋", label: "History" },
-            { icon: "⚙️", label: "Settings" },
-          ].map((item, index) => (
-            <Button
-              key={item.label}
-              variant="ghost"
-              className={`flex flex-col items-center gap-1 h-auto py-3 px-4 ${
-                index === 0
-                  ? "text-yellow-400 bg-yellow-400/10"
-                  : theme === "dark"
-                  ? "text-slate-400 hover:text-white hover:bg-white/5"
-                  : "text-slate-600 hover:text-slate-800 hover:bg-slate-100"
-              }`}
-            >
-              <span className="text-lg">{item.icon}</span>
-              <span className="text-xs">{item.label}</span>
-            </Button>
-          ))}
-        </div>
-      </nav>
+      <div className="fixed bottom-0 left-0 right-0 z-50">
+        <BottomNavigation
+          activeTab={t("navigation.play")}
+          onTabChange={onTabChange}
+        />
+      </div>
     </div>
   );
 }

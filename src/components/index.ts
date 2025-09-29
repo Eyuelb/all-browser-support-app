@@ -6,6 +6,8 @@ export { default as GameModes } from "./GameModes";
 export { default as BottomNavigation } from "./BottomNavigation";
 export { default as Footer } from "./Footer";
 export { default as CardSelectionPage } from "./CardSelectionPage";
+export { default as BingoGamePage } from "./BingoGamePage";
 export { default as SettingsPage } from "./SettingsPage";
+export { default as WalletPage } from "./WalletPage";
 export { default as LanguageDialog } from "./LanguageDialog";
 export { default as AppearanceDialog } from "./AppearanceDialog";

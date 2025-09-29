@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Trophy } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { GraduationCap } from "lucide-react";
 import { useLanguage } from "@/i18n";
 import { useTheme } from "@/contexts/ThemeContext";
 
@@ -16,16 +16,29 @@ export default function InstructionsButton({
   const { theme } = useTheme();
 
   return (
-    <Button
-      className={`w-full mb-8 text-yellow-400 border border-yellow-400/20 hover:border-yellow-400/40 transition-all duration-300 hover:shadow-lg hover:shadow-yellow-400/10 ${
+    <Card
+      className={`border-0 shadow-2xl transition-all duration-300 hover:shadow-xl hover:scale-105 cursor-pointer ${
         theme === "dark"
           ? "bg-slate-800 hover:bg-slate-700"
-          : "bg-slate-200 hover:bg-slate-300"
+          : "bg-white hover:bg-slate-50"
       }`}
       onClick={onClick}
     >
-      <Trophy className="h-4 w-4 mr-2" />
-      {t("common.instructions")}
-    </Button>
+      <CardContent className="p-6">
+        <div className="flex justify-between items-center">
+          <div className="space-y-2">
+            <div className="text-lg font-bold text-slate-800 dark:text-white">
+              {t("common.instructions")}
+            </div>
+            <div className="text-sm text-slate-600 dark:text-slate-300">
+              Learn how to play Bingo and win big!
+            </div>
+          </div>
+          <div className="w-12 h-12 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center shadow-lg">
+            <GraduationCap className="h-6 w-6 text-yellow-800" />
+          </div>
+        </div>
+      </CardContent>
+    </Card>
   );
 }
