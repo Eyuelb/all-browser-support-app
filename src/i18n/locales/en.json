@@ -25,11 +25,26 @@
     "etb": "ETB"
   },
   "navigation": {
+    "game": "Game",
     "play": "Play",
     "wallet": "Wallet",
     "history": "History",
     "stats": "Stats",
     "settings": "Settings"
+  },
+  "login": {
+    "welcome": "Welcome Back!",
+    "subtitle": "Sign in to your account to continue playing",
+    "username": "Username",
+    "usernamePlaceholder": "Enter your username",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "rememberMe": "Remember me",
+    "forgotPassword": "Forgot password?",
+    "login": "Sign In",
+    "loggingIn": "Signing in...",
+    "noAccount": "Don't have an account?",
+    "register": "Sign up"
   },
   "time": {
     "am": "AM",

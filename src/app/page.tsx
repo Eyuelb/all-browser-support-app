@@ -15,10 +15,13 @@ import SettingsPage from "@/components/SettingsPage";
 import WalletPage from "@/components/WalletPage";
 import { useLanguage } from "@/i18n";
 import { useTheme } from "@/contexts/ThemeContext";
+import { useAuth } from "@/contexts/AuthContext";
+import LoginPage from "@/components/LoginPage";
 
 export default function Home() {
   const { t } = useLanguage();
   const { theme } = useTheme();
+  const { isAuthenticated, isLoading, login, error } = useAuth();
   const [currentPage, setCurrentPage] = useState<
     "home" | "card-selection" | "bingo-game" | "settings" | "wallet"
   >("home");
@@ -27,6 +30,49 @@ export default function Home() {
     price: string;
     color: string;
   } | null>(null);
+
+  const handleLogin = async (username: string, password: string) => {
+    await login(username, password);
+  };
+
+  const handleRegister = () => {
+    // For now, just show an alert. In a real app, you'd navigate to a register page
+    alert("Registration feature coming soon!");
+  };
+
+  // Show loading state
+  if (isLoading) {
+    return (
+      <div
+        className={`min-h-screen flex items-center justify-center ${
+          theme === "dark"
+            ? "bg-black"
+            : "bg-gradient-to-br from-slate-100 via-purple-100 to-slate-200"
+        }`}
+      >
+        <div className="text-center">
+          <div className="w-8 h-8 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p
+            className={`${theme === "dark" ? "text-white" : "text-slate-800"}`}
+          >
+            Loading...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show login page if not authenticated
+  if (!isAuthenticated) {
+    return (
+      <LoginPage
+        onLogin={handleLogin}
+        onRegister={handleRegister}
+        isLoading={isLoading}
+        error={error || undefined}
+      />
+    );
+  }
 
   const handlePlayClick = (gameMode: {
     name: string;
@@ -108,7 +154,7 @@ export default function Home() {
       <div className="relative z-0 px-4 sm:px-6 lg:px-8 pb-32 max-w-md mx-auto sm:max-w-2xl lg:max-w-4xl xl:max-w-6xl">
         {/* Top cards row - Wallet and Instructions side by side on desktop */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6 mb-6">
-          <BalanceCard balance={1200} bonus={50} currency="Birr" />
+          <BalanceCard currency="Birr" />
           <InstructionsButton />
         </div>
 

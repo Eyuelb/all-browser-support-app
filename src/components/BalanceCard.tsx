@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Coins } from "lucide-react";
 import { useLanguage } from "@/i18n";
 import { useTheme } from "@/contexts/ThemeContext";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface BalanceCardProps {
   balance?: number;
@@ -12,12 +13,16 @@ interface BalanceCardProps {
 }
 
 export default function BalanceCard({
-  balance = 0,
-  bonus = 0,
+  balance,
+  bonus,
   currency = "Birr",
 }: BalanceCardProps) {
   const { t } = useLanguage();
   const { theme } = useTheme();
+  const { user } = useAuth();
+
+  const userBalance = balance ?? user?.balance ?? 0;
+  const userBonus = bonus ?? user?.bonus ?? 0;
 
   return (
     <Card
@@ -39,11 +44,11 @@ export default function BalanceCard({
               </div>
             </div>
             <div className="text-white/80 text-sm">
-              {t("common.balance")}: {balance.toLocaleString()}{" "}
+              {t("common.balance")}: {userBalance.toLocaleString()}{" "}
               {t(`currency.${currency.toLowerCase()}`)}
             </div>
             <div className="text-white/80 text-sm">
-              {t("common.bonus")}: {bonus}{" "}
+              {t("common.bonus")}: {userBonus}{" "}
               {t(`currency.${currency.toLowerCase()}`)}
             </div>
           </div>

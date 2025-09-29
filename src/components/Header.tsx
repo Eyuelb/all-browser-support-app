@@ -5,14 +5,18 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Plus } from "lucide-react";
 import { useLanguage } from "@/i18n";
 import { useTheme } from "@/contexts/ThemeContext";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface HeaderProps {
   userName?: string;
 }
 
-export default function Header({ userName = "T@Y" }: HeaderProps) {
+export default function Header({ userName }: HeaderProps) {
   const { t } = useLanguage();
   const { theme } = useTheme();
+  const { user, logout } = useAuth();
+
+  const displayName = userName || user?.username || "Guest";
 
   return (
     <header className="relative z-10 flex justify-between items-center p-4 sm:p-6">
@@ -22,7 +26,7 @@ export default function Header({ userName = "T@Y" }: HeaderProps) {
             theme === "dark" ? "text-white" : "text-slate-800"
           }`}
         >
-          {t("common.hello")}, {userName}!
+          {t("common.hello")}, {displayName}!
         </span>
       </div>
 
@@ -31,9 +35,9 @@ export default function Header({ userName = "T@Y" }: HeaderProps) {
           <Plus className="h-4 w-4 mr-1" />
           {t("common.deposit")}
         </Button>
-        <Avatar className="h-10 w-10">
+        <Avatar className="h-10 w-10 cursor-pointer" onClick={logout}>
           <AvatarFallback className="bg-gradient-to-r from-blue-500 to-purple-500 text-white font-bold">
-            {userName.slice(0, 2).toUpperCase()}
+            {displayName.slice(0, 2).toUpperCase()}
           </AvatarFallback>
         </Avatar>
       </div>
