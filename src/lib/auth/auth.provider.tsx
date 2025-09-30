@@ -1,12 +1,12 @@
 "use client";
-import { ReactNode, useCallback, useMemo, useRef, useState } from "react";
-import { Session } from "./auth.model";
+import { type ReactNode, useCallback, useMemo, useRef, useState } from "react";
+import type { Session } from "./auth.model";
 import { AuthContext } from "./auth.context";
 import { clearCookieSession, setCookieSession } from "./auth.service";
 import { convertPermissions, getPermissionsByResource } from "./auth.guard";
 import { usePathname } from "next/navigation";
 import { useGetUserById } from "@/query/user";
-import { Box, Center, Group, Loader } from "@mantine/core";
+import { Loader2 } from "lucide-react";
 import ErrorPage from "@/components/common/error-page";
 
 export const AuthProvider = ({
@@ -22,17 +22,17 @@ export const AuthProvider = ({
 
   const { data, isLoading, isFetching, isError } = useGetUserById(
     pSession?.user?.id,
+    !!pSession?.token?.access_token
   );
   const user = useMemo(() => data, [data]);
 
-  const setSessionToken = useCallback(
-    (data: Session) => {
-      isSignedIn.current = true;
-      setSession(data);
-      setCookieSession(data);
-    },
-    [setSession],
-  );
+  console.log({ user });
+
+  const setSessionToken = useCallback((data: Session) => {
+    isSignedIn.current = true;
+    setSession(data);
+    setCookieSession(data);
+  }, []);
 
   const session = useMemo(
     () =>
@@ -40,37 +40,41 @@ export const AuthProvider = ({
         token: storedSession?.token,
         user: data,
         account: storedSession?.account,
-      }) as Session,
-    [storedSession, data],
+      } as Session),
+    [storedSession, data]
   );
 
   const signOut = useCallback(async () => {
     isSignedIn.current = false;
     setSession(undefined);
     await clearCookieSession();
-  }, [setSession]);
+  }, []);
   const allowedResources = useMemo(
     () => [...convertPermissions(user?.roles ?? []), ...["/profile"]],
-    [user],
+    [user]
   );
 
   const currentPermissions = useMemo(
     () => getPermissionsByResource(user?.roles ?? [], path),
-    [user, path],
+    [user, path]
   );
   if (isFetching || isLoading) {
     return (
-      <Box className="min-h-screen" pt={300}>
-        <Group justify="center">
-          <Loader size="sm" />
-          <Center>Loading....</Center>
-        </Group>
-      </Box>
+      <div className="min-h-screen flex items-center justify-center pt-[300px]">
+        <div className="flex flex-col items-center justify-center gap-3">
+          <Loader2 className="h-8 w-8 animate-spin text-orange-500" />
+          <div className="text-center text-gray-600">Loading....</div>
+        </div>
+      </div>
     );
   }
   if (isError) {
     return (
-      <ErrorPage errorMessage="Error on Fetching user data please try again!" onRetryReload onLogout={signOut} />
+      <ErrorPage
+        errorMessage="Error on Fetching user data please try again!"
+        onRetryReload
+        onLogout={signOut}
+      />
     );
   }
 

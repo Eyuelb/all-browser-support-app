@@ -1,13 +1,13 @@
 import { TUser } from "./user";
 
 export type TLoginArg = {
-  email: string;
+  phoneNumber: string;
   password: string;
 };
 export type TLoginRes = {
-  refresh_token: string
+  refresh_token: string;
   access_token: string;
-  user: TUser;
+  currentUser: TUser;
 };
 export type TRegisterArg = {
   firstName: string;
@@ -18,5 +18,5 @@ export type TRegisterArg = {
 
 export type TRegisterRes = {
   accessToken: string;
-  newUser: TUser;
+  currentUser: TUser;
 };

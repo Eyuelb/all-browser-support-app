@@ -11,8 +11,15 @@ const axiosBaseQuery = () => {
 
   instance.interceptors.request.use(
     async (request) => {
+      // Log request data for debugging
+      console.log("Axios request:", { url: request.url, data: request.data });
+
       if (request.url?.includes("/set-user-session")) return request;
-      if (request.url?.includes("/auth") && !request.url?.includes("/auth/profile")) return request;
+      if (
+        request.url?.includes("/auth") &&
+        !request.url?.includes("/auth/profile")
+      )
+        return request;
 
       const session = await getSession();
       if (session) {
@@ -26,12 +33,11 @@ const axiosBaseQuery = () => {
             `http://localhost:3000/api/set-user-session`,
             {
               refresh_token: refreshToken,
-            },
+            }
           );
           if (res?.access_token) {
             accessToken = `Bearer ${res?.access_token}`;
           }
-
         }
         request.headers.Authorization = accessToken;
         instance.defaults.headers.common.Authorization = accessToken;
@@ -45,7 +51,7 @@ const axiosBaseQuery = () => {
       return {
         error: { status: err.response?.status, data: err.response?.data },
       };
-    },
+    }
   );
 
   return instance;

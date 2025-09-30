@@ -10,7 +10,7 @@ import { getBaseUrl } from "@/utils/req";
 export const useSignIn = () => {
   return useMutationQuery<TLoginRes, TLoginArg>({
     mutationParams: {
-      url: getBaseUrl("/auth/login"),
+      url: getBaseUrl("/auth/sign-in"),
       method: "POST",
     },
   });

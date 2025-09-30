@@ -2,7 +2,7 @@
 import { redirect, usePathname } from "next/navigation";
 import { useAuth } from "./auth.hooks";
 import React, { PropsWithChildren, useEffect, useState } from "react";
-import NotFoundLayout from "@/components/common/not-found-layout";
+// import NotFoundLayout from "@/components/common/not-found-layout";
 import { TRole } from "@/models/role";
 
 export function useIsMounted() {
@@ -46,7 +46,7 @@ export const RoleBasedLayout = (props: PropsWithChildren) => {
     }) &&
     !skipGuard
   ) {
-    return <NotFoundLayout />;
+    return;
   }
   return <React.Fragment>{props.children}</React.Fragment>;
 };
@@ -69,7 +69,7 @@ export const convertPermissions = (roles: TRole[]): string[] => {
 };
 export const getPermissionsByResource = (
   roles: TRole[],
-  resourcePath: string,
+  resourcePath: string
 ): string[] => {
   const resource = findResourceByPath(roles, resourcePath);
   if (!resource) return [];

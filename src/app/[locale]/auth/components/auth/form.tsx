@@ -14,6 +14,7 @@ import { useTranslations } from "next-intl";
 import LanguageSwitcher from "@/app/[locale]/auth/components/LanguageSwitcher";
 import { useSignIn } from "@/query/auth";
 import { TLoginArg } from "@/models/auth";
+import { useAuth } from "@/lib/auth/auth.hooks";
 
 interface AuthFormsProps {
   type: "login" | "register";
@@ -24,26 +25,29 @@ export default function AuthForms({ type, tittle }: AuthFormsProps) {
   const t = useTranslations("login");
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    email: "",
+    phoneNumber: "",
     password: "",
   });
+
+  const { setSession } = useAuth();
 
   const { mutateAsync, isPending } = useSignIn();
 
   const onSubmit = async (formData: TLoginArg) => {
     await mutateAsync(formData)
       .then(async (formData) => {
-        if (formData.user && "roles" in formData.user) {
-          delete formData.user.roles;
+        console.log(formData);
+        if (formData.currentUser && "roles" in formData.currentUser) {
+          delete formData.currentUser.roles;
         }
-        formData.user["roles"] = [];
+        formData.currentUser["roles"] = [];
         const session = {
           account: undefined,
           user: {
-            id: formData.user.id,
-            email: formData.user.email,
-            active: formData.user.active,
-            locale: formData.user.locale,
+            id: formData.currentUser.id,
+            phoneNumber: formData.currentUser.phoneNumber,
+            active: formData.currentUser.active,
+            locale: formData.currentUser.locale,
           },
           token: {
             access_token: formData.access_token,
@@ -51,7 +55,9 @@ export default function AuthForms({ type, tittle }: AuthFormsProps) {
           },
         };
         // Session handling removed - implement as needed
-        const redirectUrl = "/";
+        await setSession(session);
+
+        const redirectUrl = "/game";
         setTimeout(() => {
           if (typeof window !== "undefined") {
             window.location.href = redirectUrl;
@@ -154,14 +160,14 @@ export default function AuthForms({ type, tittle }: AuthFormsProps) {
 
               <CardContent className="px-8 pb-8">
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  {/* Email/Username Field */}
+                  {/* Email/phoneNumber Field */}
                   <div className="space-y-2">
                     <Input
-                      type="email"
+                      type="phoneNumber"
                       placeholder={t("username")}
-                      value={formData.email}
+                      value={formData.phoneNumber}
                       onChange={(e) =>
-                        handleInputChange("email", e.target.value)
+                        handleInputChange("phoneNumber", e.target.value)
                       }
                       className="h-12 lg:h-14 bg-gray-50 border-0 rounded-xl px-4 text-gray-700 placeholder-gray-400 focus:ring-2 focus:ring-orange-400 focus:bg-white transition-all duration-200 text-base"
                       required
