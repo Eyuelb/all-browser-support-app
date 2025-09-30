@@ -1,226 +1,175 @@
 "use client";
 
 import { useState } from "react";
-import { useTranslations } from "next-intl";
-import { Button } from "@/app/[locale]/components/ui/button";
-import { Card, CardContent } from "@/app/[locale]/components/ui/card";
 import {
-  Coins,
-  GraduationCap,
-  Plus,
-  UserPlus,
-  Gamepad2,
-  Wallet,
-  History,
-  Settings,
-  Play,
-} from "lucide-react";
+  Header,
+  BackgroundPattern,
+  BalanceCard,
+  InstructionsButton,
+  GameModes,
+  BottomNavigation,
+} from "@/components";
+import CardSelectionPage from "@/components/CardSelectionPage";
+import BingoGamePage from "@/components/BingoGamePage";
+import SettingsPage from "@/components/SettingsPage";
+import WalletPage from "@/components/WalletPage";
+import { useTranslations } from "next-intl";
+import { useTheme } from "@/contexts/ThemeContext";
+import { useAuth } from "@/contexts/AuthContext";
+import LoginPage from "@/components/LoginPage";
 
-export default function GameLobby() {
+export default function Home() {
   const t = useTranslations();
-  const [balance] = useState(1200);
-  const [bonus] = useState(50);
+  const { theme } = useTheme();
+  const { isAuthenticated, isLoading, login, error } = useAuth();
+  const [currentPage, setCurrentPage] = useState<
+    "home" | "card-selection" | "bingo-game" | "settings" | "wallet"
+  >("home");
+  const [selectedGameMode, setSelectedGameMode] = useState<{
+    name: string;
+    price: string;
+    color: string;
+  } | null>(null);
 
-  const betOptions = [
-    {
-      id: "mini",
-      name: "Mini",
-      amount: 10,
-      color: "from-blue-500 to-blue-600",
-      borderColor: "border-blue-200",
-      ballNumber: "B-15",
-      icon: "🔵",
-    },
-    {
-      id: "sweety",
-      name: "Sweety",
-      amount: 20,
-      color: "from-orange-500 to-orange-600",
-      borderColor: "border-orange-200",
-      ballNumber: "I-23",
-      icon: "🟠",
-    },
-    {
-      id: "standard",
-      name: "Standard",
-      amount: 50,
-      color: "from-purple-500 to-purple-600",
-      borderColor: "border-purple-200",
-      ballNumber: "N-42",
-      icon: "🟣",
-    },
-    {
-      id: "grand",
-      name: "Grand",
-      amount: 100,
-      color: "from-green-500 to-green-600",
-      borderColor: "border-green-200",
-      ballNumber: "G-73",
-      icon: "🟢",
-    },
-  ];
+  const handleLogin = async (username: string, password: string) => {
+    await login(username, password);
+  };
 
-  const navigationItems = [
-    { icon: Gamepad2, label: "Game", active: true },
-    { icon: Wallet, label: "Wallet" },
-    { icon: History, label: "History" },
-    { icon: Settings, label: "Settings" },
-  ];
+  const handleRegister = () => {
+    // For now, just show an alert. In a real app, you'd navigate to a register page
+    alert("Registration feature coming soon!");
+  };
+
+  // Show loading state
+  if (isLoading) {
+    return (
+      <div
+        className={`min-h-screen flex items-center justify-center ${
+          theme === "dark"
+            ? "bg-black"
+            : "bg-gradient-to-br from-slate-100 via-purple-100 to-slate-200"
+        }`}
+      >
+        <div className="text-center">
+          <div className="w-8 h-8 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p
+            className={`${theme === "dark" ? "text-white" : "text-slate-800"}`}
+          >
+            Loading...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  // Show login page if not authenticated
+  if (!isAuthenticated) {
+    return (
+      <LoginPage
+        onLogin={handleLogin}
+        onRegister={handleRegister}
+        isLoading={isLoading}
+        error={error || undefined}
+      />
+    );
+  }
+
+  const handlePlayClick = (gameMode: {
+    name: string;
+    price: string;
+    color: string;
+  }) => {
+    setSelectedGameMode(gameMode);
+    setCurrentPage("card-selection");
+  };
+
+  const handleBackToHome = () => {
+    setCurrentPage("home");
+    setSelectedGameMode(null);
+  };
+
+  const handleStartGame = () => {
+    setCurrentPage("bingo-game");
+  };
+
+  const handleTabChange = (tab: string) => {
+    if (tab === t("navigation.settings")) {
+      setCurrentPage("settings");
+    } else if (tab === t("navigation.wallet")) {
+      setCurrentPage("wallet");
+    } else if (
+      tab === t("navigation.play") ||
+      tab === t("navigation.history") ||
+      tab === t("navigation.stats")
+    ) {
+      setCurrentPage("home");
+    }
+  };
+
+  // Show settings page
+  if (currentPage === "settings") {
+    return (
+      <SettingsPage onBack={handleBackToHome} onTabChange={handleTabChange} />
+    );
+  }
+
+  // Show wallet page
+  if (currentPage === "wallet") {
+    return (
+      <WalletPage onBack={handleBackToHome} onTabChange={handleTabChange} />
+    );
+  }
+
+  // Show bingo game page
+  if (currentPage === "bingo-game") {
+    return (
+      <BingoGamePage onBack={handleBackToHome} onTabChange={handleTabChange} />
+    );
+  }
+
+  // Show card selection page if a game mode is selected
+  if (currentPage === "card-selection" && selectedGameMode) {
+    return (
+      <CardSelectionPage
+        gameMode={selectedGameMode}
+        onBack={handleBackToHome}
+        onTabChange={handleTabChange}
+        onStartGame={handleStartGame}
+      />
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-white relative overflow-hidden">
-      {/* Background Pattern */}
-      <div
-        className="absolute inset-0 opacity-5"
-        style={{
-          backgroundImage: `
-            radial-gradient(circle at 25% 25%, #f59e0b 2px, transparent 2px),
-            radial-gradient(circle at 75% 75%, #3b82f6 2px, transparent 2px),
-            radial-gradient(circle at 50% 50%, #8b5cf6 2px, transparent 2px)
-          `,
-          backgroundSize: "60px 60px, 80px 80px, 100px 100px",
-          backgroundPosition: "0 0, 30px 30px, 15px 15px",
-        }}
-      />
+    <div
+      className={`min-h-screen relative ${
+        theme === "dark"
+          ? "bg-black"
+          : "bg-gradient-to-br from-slate-100 via-purple-100 to-slate-200"
+      }`}
+    >
+      <BackgroundPattern />
+      <Header userName="Azina" />
 
-      {/* Header */}
-      <div className="relative z-10 px-4 py-6 max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mb-6">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-800">Hello, Azina!</h1>
-            <p className="text-gray-600 text-sm">Ready to play some Bingo?</p>
-          </div>
-          <Button className="bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white font-semibold px-6 py-3 rounded-xl shadow-lg">
-            <Plus className="h-4 w-4 mr-2" />
-            Deposit
-          </Button>
+      {/* Desktop-optimized content area */}
+      <div className="relative z-0 px-4 sm:px-6 lg:px-8 pb-32 max-w-md mx-auto sm:max-w-2xl lg:max-w-4xl xl:max-w-6xl">
+        {/* Top cards row - Wallet and Instructions side by side on desktop */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:gap-6 mb-6">
+          <BalanceCard currency="Birr" />
+          <InstructionsButton />
         </div>
 
-        {/* Wallet and Instructions Row */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-          {/* Wallet Card */}
-          <Card className="bg-gradient-to-r from-blue-500 to-blue-600 border-0 shadow-xl">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-4">
-                  <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center shadow-lg">
-                    <Coins className="h-8 w-8 text-yellow-800" />
-                  </div>
-                  <div>
-                    <h3 className="text-white text-lg font-semibold">Wallet</h3>
-                    <div className="text-white/90 text-sm">
-                      Balance: {balance.toLocaleString()} Birr
-                    </div>
-                    <div className="text-white/90 text-sm">
-                      Bonus: {bonus} Birr
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Instructions Card */}
-          <Card className="border-2 border-yellow-300 bg-white shadow-lg">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-4">
-                  <div className="w-12 h-12 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center shadow-lg">
-                    <GraduationCap className="h-6 w-6 text-yellow-800" />
-                  </div>
-                  <div>
-                    <h3 className="text-gray-800 text-lg font-semibold">
-                      Instructions
-                    </h3>
-                    <p className="text-gray-600 text-sm">
-                      Learn how to play and win big!
-                    </p>
-                  </div>
-                </div>
-                <Button
-                  variant="outline"
-                  className="border-yellow-400 text-yellow-600 hover:bg-yellow-50"
-                >
-                  View
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Play Section */}
-        <div className="mb-6">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-bold text-gray-800">Play</h2>
-            <Button
-              variant="outline"
-              className="border-blue-300 text-blue-600 hover:bg-blue-50"
-            >
-              <UserPlus className="h-4 w-4 mr-2" />
-              Invite Friends
-            </Button>
-          </div>
-
-          {/* Bet Options Grid - 2 columns on mobile, 4 columns on desktop */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            {betOptions.map((option) => (
-              <Card
-                key={option.id}
-                className={`border-2 ${option.borderColor} bg-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105`}
-              >
-                <CardContent className="p-4">
-                  <div className="text-center">
-                    <div
-                      className={`w-12 h-12 mx-auto mb-3 rounded-full bg-gradient-to-r ${option.color} flex items-center justify-center text-white font-bold text-lg shadow-lg`}
-                    >
-                      {option.icon}
-                    </div>
-                    <h3 className="font-bold text-gray-800 text-lg mb-1">
-                      {option.name}
-                    </h3>
-                    <p className="text-gray-600 text-sm mb-2">
-                      {option.amount} Birr
-                    </p>
-                    <p className="text-gray-500 text-xs mb-3">
-                      {option.ballNumber}
-                    </p>
-                    <Button
-                      className={`w-full bg-gradient-to-r ${option.color} hover:opacity-90 text-white font-semibold py-2 rounded-lg shadow-md`}
-                    >
-                      <Play className="h-4 w-4 mr-1" />
-                      Play Now
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
+        {/* Game modes section */}
+        <GameModes onPlayClick={handlePlayClick} />
       </div>
 
-      {/* Bottom Navigation */}
-      <div className="fixed bottom-0 left-0 right-0 z-20">
-        <div className="bg-gradient-to-r from-gray-50 to-gray-100 border-t border-gray-200 px-4 py-3">
-          <div className="flex justify-around items-center">
-            {navigationItems.map((item, index) => (
-              <button
-                key={index}
-                className={`flex flex-col items-center space-y-1 p-2 rounded-lg transition-colors ${
-                  item.active
-                    ? "text-orange-500 bg-orange-50"
-                    : "text-gray-600 hover:text-gray-800 hover:bg-gray-50"
-                }`}
-              >
-                <item.icon className="h-6 w-6" />
-                <span className="text-xs font-medium">{item.label}</span>
-              </button>
-            ))}
-          </div>
-        </div>
+      {/* Fixed bottom elements with higher z-index */}
+      <div className="fixed bottom-0 left-0 right-0 z-50">
+        <BottomNavigation
+          activeTab={t("navigation.play")}
+          onTabChange={handleTabChange}
+        />
+        {/* <Footer /> */}
       </div>
-
-      {/* Bottom padding to prevent content from being hidden behind navigation */}
-      <div className="h-20"></div>
     </div>
   );
 }
