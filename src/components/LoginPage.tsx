@@ -10,7 +10,7 @@ import { useTranslations } from "next-intl";
 import { useTheme } from "@/contexts/ThemeContext";
 
 interface LoginPageProps {
-  onLogin: (username: string, password: string) => void;
+  onLogin: (formData: { phoneNumber: string; password: string }) => void;
   onRegister: () => void;
   isLoading?: boolean;
   error?: string;
@@ -26,14 +26,14 @@ export default function LoginPage({
   const { theme } = useTheme();
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
-    username: "",
+    phoneNumber: "",
     password: "",
   });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.username && formData.password) {
-      onLogin(formData.username, formData.password);
+    if (formData.phoneNumber && formData.password) {
+      onLogin(formData);
     }
   };
 
@@ -99,11 +99,11 @@ export default function LoginPage({
                   <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-slate-400" />
                   <Input
                     id="username"
-                    type="text"
-                    placeholder={t("login.usernamePlaceholder")}
-                    value={formData.username}
+                    type="tel"
+                    placeholder={t("ui.usernamePlaceholder")}
+                    value={formData.phoneNumber}
                     onChange={(e) =>
-                      handleInputChange("username", e.target.value)
+                      handleInputChange("phoneNumber", e.target.value)
                     }
                     className="pl-10"
                     required
@@ -125,7 +125,7 @@ export default function LoginPage({
                   <Input
                     id="password"
                     type={showPassword ? "text" : "password"}
-                    placeholder={t("login.passwordPlaceholder")}
+                    placeholder={t("ui.passwordPlaceholder")}
                     value={formData.password}
                     onChange={(e) =>
                       handleInputChange("password", e.target.value)
@@ -160,23 +160,25 @@ export default function LoginPage({
                       theme === "dark" ? "text-slate-400" : "text-slate-600"
                     }`}
                   >
-                    {t("login.rememberMe")}
+                    {t("ui.rememberMe")}
                   </span>
                 </label>
                 <button
                   type="button"
                   className="text-yellow-500 hover:text-yellow-600 font-medium"
                 >
-                  {t("login.forgotPassword")}
+                  {t("ui.forgotPassword")}
                 </button>
               </div>
 
               <Button
                 type="submit"
                 className="w-full bg-gradient-to-r from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600 text-white font-semibold py-2"
-                disabled={isLoading || !formData.username || !formData.password}
+                disabled={
+                  isLoading || !formData.phoneNumber || !formData.password
+                }
               >
-                {isLoading ? t("login.loggingIn") : t("login.login")}
+                {isLoading ? t("ui.loggingIn") : t("login.loginButton")}
               </Button>
 
               <div className="text-center">
@@ -185,14 +187,14 @@ export default function LoginPage({
                     theme === "dark" ? "text-slate-400" : "text-slate-600"
                   }`}
                 >
-                  {t("login.noAccount")}{" "}
+                  {t("ui.noAccount")}{" "}
                 </span>
                 <button
                   type="button"
                   onClick={onRegister}
                   className="text-yellow-500 hover:text-yellow-600 font-medium text-sm"
                 >
-                  {t("login.register")}
+                  {t("ui.register")}
                 </button>
               </div>
             </form>

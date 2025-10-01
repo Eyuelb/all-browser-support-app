@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { X, Sun, Moon, Monitor } from "lucide-react";
 import { useTheme } from "@/contexts/ThemeContext";
+import { useTranslations } from "next-intl";
 
 interface AppearanceDialogProps {
   isOpen: boolean;
@@ -17,27 +18,28 @@ export default function AppearanceDialog({
   onThemeSelect,
 }: AppearanceDialogProps) {
   const { theme, actualTheme } = useTheme();
+  const t = useTranslations();
 
   if (!isOpen) return null;
 
   const themes = [
     {
       code: "light",
-      name: "Light",
+      name: t("ui.light"),
       icon: Sun,
       description: "",
     },
     {
       code: "dark",
-      name: "Dark",
+      name: t("ui.dark"),
       icon: Moon,
       description: "",
     },
     {
       code: "system",
-      name: "System",
+      name: t("ui.system"),
       icon: Monitor,
-      description: "Follows system theme mode",
+      description: t("ui.followsSystemTheme"),
     },
   ];
 
@@ -49,7 +51,7 @@ export default function AppearanceDialog({
         className="absolute inset-0 bg-black/50 w-full h-full"
         onClick={onClose}
         onKeyDown={(e) => e.key === "Escape" && onClose()}
-        aria-label="Close dialog"
+        aria-label={t("ui.closeDialog")}
       />
 
       {/* Dialog */}
@@ -73,7 +75,7 @@ export default function AppearanceDialog({
                   actualTheme === "dark" ? "text-white" : "text-slate-800"
                 }`}
               >
-                Appearance
+                {t("ui.appearance")}
               </h3>
               <Button
                 variant="ghost"

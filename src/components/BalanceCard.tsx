@@ -4,7 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Coins } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useTheme } from "@/contexts/ThemeContext";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/lib/auth/auth.hooks";
 
 interface BalanceCardProps {
   balance?: number;
@@ -19,10 +19,11 @@ export default function BalanceCard({
 }: BalanceCardProps) {
   const t = useTranslations();
   const { theme } = useTheme();
-  const { user } = useAuth();
+  const { session } = useAuth();
+  // const user = session?.user; // User data not used in this component
 
-  const userBalance = balance ?? user?.balance ?? 0;
-  const userBonus = bonus ?? user?.bonus ?? 0;
+  const userBalance = balance ?? 0; // User balance not available in TUser model
+  const userBonus = bonus ?? 0; // User bonus not available in TUser model
 
   return (
     <Card

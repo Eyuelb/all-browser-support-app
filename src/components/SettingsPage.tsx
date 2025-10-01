@@ -39,7 +39,9 @@ export default function SettingsPage({
   };
 
   const handleLanguageSelect = (selectedLanguage: string) => {
-    setLanguage(selectedLanguage);
+    // Language switching is handled by the LanguageDialog component
+    // This function is kept for compatibility but doesn't need to do anything
+    console.log("Language selected:", selectedLanguage);
   };
 
   const handleAppearanceClick = () => {

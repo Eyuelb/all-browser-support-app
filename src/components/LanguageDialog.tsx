@@ -5,6 +5,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useTheme } from "@/contexts/ThemeContext";
+import { useRouter, usePathname } from "@/i18n/routing";
+import { useParams } from "next/navigation";
 
 interface LanguageDialogProps {
   isOpen: boolean;
@@ -18,14 +20,18 @@ export default function LanguageDialog({
   onLanguageSelect,
 }: LanguageDialogProps) {
   const t = useTranslations();
-  // Note: language detection needs to be implemented with next-intl
   const { theme } = useTheme();
+  const router = useRouter();
+  const pathname = usePathname();
+  const params = useParams();
+  const currentLocale = params.locale as string;
 
   if (!isOpen) return null;
 
   const languages = [
-    { code: "en", name: "English", nativeName: "English" },
-    { code: "am", name: "Amharic", nativeName: "አማርኛ" },
+    { code: "en", name: t("ui.english"), nativeName: t("ui.english") },
+    { code: "am", name: t("ui.amharic"), nativeName: t("ui.amharicNative") },
+    { code: "fr", name: "Français", nativeName: "Français" },
   ];
 
   return (
@@ -36,7 +42,7 @@ export default function LanguageDialog({
         className="absolute inset-0 bg-black/50 w-full h-full"
         onClick={onClose}
         onKeyDown={(e) => e.key === "Escape" && onClose()}
-        aria-label="Close dialog"
+        aria-label={t("ui.closeDialog")}
       />
 
       {/* Dialog */}
@@ -60,7 +66,7 @@ export default function LanguageDialog({
                   theme === "dark" ? "text-white" : "text-slate-800"
                 }`}
               >
-                Language
+                {t("ui.language")}
               </h3>
               <Button
                 variant="ghost"
@@ -83,13 +89,14 @@ export default function LanguageDialog({
                   key={lang.code}
                   type="button"
                   className={`w-full flex items-center justify-between py-3 px-2 rounded-lg cursor-pointer transition-colors ${
-                    language === lang.code
+                    currentLocale === lang.code
                       ? theme === "dark"
                         ? "bg-slate-700"
                         : "bg-slate-100"
                       : "hover:bg-slate-50 dark:hover:bg-slate-700"
                   }`}
                   onClick={() => {
+                    router.push(pathname, { locale: lang.code });
                     onLanguageSelect(lang.code);
                     onClose();
                   }}
@@ -97,14 +104,14 @@ export default function LanguageDialog({
                   <div className="flex items-center gap-3">
                     <div
                       className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
-                        language === lang.code
+                        currentLocale === lang.code
                           ? "border-red-500 bg-red-500"
                           : theme === "dark"
                           ? "border-slate-400"
                           : "border-slate-300"
                       }`}
                     >
-                      {language === lang.code && (
+                      {currentLocale === lang.code && (
                         <div className="w-2 h-2 bg-white rounded-full" />
                       )}
                     </div>

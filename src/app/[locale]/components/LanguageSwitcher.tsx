@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { useLocale } from "next-intl";
+import { useRouter, usePathname } from "@/i18n/routing";
 import { Globe } from "lucide-react";
 
 const languages = [
@@ -12,15 +12,18 @@ const languages = [
 
 export default function LanguageSwitcher() {
   const locale = useLocale();
+  const router = useRouter();
+  const pathname = usePathname();
 
   return (
     <div className="flex items-center gap-2">
       <Globe className="h-4 w-4 text-gray-600" />
       <div className="flex gap-2">
         {languages.map((lang) => (
-          <Link
+          <button
             key={lang.code}
-            href={`/${lang.code}`}
+            type="button"
+            onClick={() => router.push(pathname, { locale: lang.code })}
             className={`px-3 py-1 rounded-lg text-sm font-medium transition-colors ${
               locale === lang.code
                 ? "bg-orange-500 text-white"
@@ -29,7 +32,7 @@ export default function LanguageSwitcher() {
           >
             <span className="mr-1">{lang.flag}</span>
             {lang.name}
-          </Link>
+          </button>
         ))}
       </div>
     </div>

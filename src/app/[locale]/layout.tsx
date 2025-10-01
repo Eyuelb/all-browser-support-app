@@ -6,6 +6,7 @@ import { Inter } from "next/font/google";
 import { routing } from "@/i18n/routing";
 import { getSession } from "@/lib/auth/auth.service";
 import { AuthProvider } from "@/lib/auth/auth.provider";
+import { ThemeProvider } from "@/contexts/ThemeContext";
 // import Navigation from '@/app/[locale]/components/Navigation';
 // import './styles.css';
 
@@ -52,10 +53,12 @@ export default async function LocaleLayout({
     <html className="h-full" lang={locale}>
       <body className={clsx(inter.className, "flex h-full flex-col")}>
         <NextIntlClientProvider>
-          <AuthProvider session={session}>
-            {/* <Navigation /> */}
-            {children}
-          </AuthProvider>
+          <ThemeProvider>
+            <AuthProvider session={session}>
+              {/* <Navigation /> */}
+              {children}
+            </AuthProvider>
+          </ThemeProvider>
         </NextIntlClientProvider>
       </body>
     </html>

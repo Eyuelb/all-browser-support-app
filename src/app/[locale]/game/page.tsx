@@ -15,13 +15,27 @@ import SettingsPage from "@/components/SettingsPage";
 import WalletPage from "@/components/WalletPage";
 import { useTranslations } from "next-intl";
 import { useTheme } from "@/contexts/ThemeContext";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/lib/auth/auth.hooks";
 import LoginPage from "@/components/LoginPage";
+import { useSignIn } from "@/query/auth";
+import type { TLoginRes } from "@/models/auth";
 
 export default function Home() {
   const t = useTranslations();
   const { theme } = useTheme();
-  const { isAuthenticated, isLoading, login, error } = useAuth();
+  const { session, isSignedIn } = useAuth();
+  const isAuthenticated = isSignedIn && !!session?.user;
+
+  console.log("Auth state:", {
+    isSignedIn,
+    session,
+    isAuthenticated,
+    hasUser: !!session?.user,
+    userDetails: session?.user,
+    tokenDetails: session?.token,
+  });
+  const isLoading = false; // You can add loading state if needed
+  const error = null; // You can add error handling if needed
   const [currentPage, setCurrentPage] = useState<
     "home" | "card-selection" | "bingo-game" | "settings" | "wallet"
   >("home");
@@ -31,13 +45,64 @@ export default function Home() {
     color: string;
   } | null>(null);
 
-  const handleLogin = async (username: string, password: string) => {
-    await login(username, password);
+  const { setSession } = useAuth();
+
+  const { mutateAsync } = useSignIn();
+
+  const handleLogin = async (formData: {
+    phoneNumber: string;
+    password: string;
+  }) => {
+    await mutateAsync(formData)
+      .then(async (response: TLoginRes) => {
+        console.log("Login response:", response);
+        if (response.currentUser && "roles" in response.currentUser) {
+          delete response.currentUser.roles;
+        }
+        response.currentUser["roles"] = [];
+        const session = {
+          account: undefined,
+          user: {
+            id: response.currentUser.id,
+            email:
+              response.currentUser.email ||
+              response.currentUser.phoneNumber ||
+              "",
+            phoneNumber: response.currentUser.phoneNumber,
+            active: response.currentUser.active,
+            locale: response.currentUser.locale,
+          },
+          token: {
+            access_token: response.access_token,
+            refresh_token: response.refresh_token,
+          },
+        };
+        console.log("Setting session:", session);
+        console.log("Token details:", {
+          access_token: response.access_token,
+          refresh_token: response.refresh_token,
+        });
+        await setSession(session);
+
+        const redirectUrl = "/game";
+        setTimeout(() => {
+          if (typeof window !== "undefined") {
+            window.location.href = redirectUrl;
+          }
+        }, 1000);
+      })
+      .catch((error: unknown) => {
+        console.error("Login error:", error);
+        // setError("root", {
+        //   message: error?.message ?? "Invalid Credentials",
+        //   type: "validate",
+        // });
+      });
   };
 
   const handleRegister = () => {
     // For now, just show an alert. In a real app, you'd navigate to a register page
-    alert("Registration feature coming soon!");
+    alert(t("ui.registrationComingSoon"));
   };
 
   // Show loading state
@@ -55,7 +120,7 @@ export default function Home() {
           <p
             className={`${theme === "dark" ? "text-white" : "text-slate-800"}`}
           >
-            Loading...
+            {t("ui.loading")}
           </p>
         </div>
       </div>

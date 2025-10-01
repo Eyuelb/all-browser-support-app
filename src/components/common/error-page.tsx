@@ -7,6 +7,7 @@ import {
   CardHeader,
 } from "@/app/[locale]/components/ui/card";
 import { AlertCircle, RefreshCw, LogOut } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface ErrorPageProps {
   errorMessage: string;
@@ -21,6 +22,8 @@ export default function ErrorPage({
   onLogout,
   hideRetryButton = false,
 }: ErrorPageProps) {
+  const t = useTranslations();
+
   const handleRetry = () => {
     if (typeof window !== "undefined") {
       window.location.reload();
@@ -34,7 +37,7 @@ export default function ErrorPage({
           <div className="mx-auto w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mb-4">
             <AlertCircle className="h-8 w-8 text-red-600" />
           </div>
-          <h2 className="text-2xl font-bold text-gray-800">Error</h2>
+          <h2 className="text-2xl font-bold text-gray-800">{t("ui.error")}</h2>
         </CardHeader>
         <CardContent className="space-y-6">
           <p className="text-center text-gray-600">{errorMessage}</p>
@@ -46,7 +49,7 @@ export default function ErrorPage({
                 className="w-full bg-gradient-to-r from-orange-400 to-orange-500 hover:from-orange-500 hover:to-orange-600 text-white"
               >
                 <RefreshCw className="mr-2 h-4 w-4" />
-                Retry
+                {t("ui.retry")}
               </Button>
             )}
 
@@ -57,7 +60,7 @@ export default function ErrorPage({
                 className="w-full border-orange-300 text-orange-600 hover:bg-orange-50"
               >
                 <LogOut className="mr-2 h-4 w-4" />
-                Logout
+                {t("ui.logout")}
               </Button>
             )}
           </div>

@@ -1,5 +1,5 @@
 "use client";
-import { type ReactNode, useCallback, useMemo, useRef, useState } from "react";
+import { type ReactNode, useCallback, useMemo, useState } from "react";
 import type { Session } from "./auth.model";
 import { AuthContext } from "./auth.context";
 import { clearCookieSession, setCookieSession } from "./auth.service";
@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 import { useGetUserById } from "@/query/user";
 import { Loader2 } from "lucide-react";
 import ErrorPage from "@/components/common/error-page";
+import { useTranslations } from "next-intl";
 
 export const AuthProvider = ({
   children,
@@ -17,19 +18,32 @@ export const AuthProvider = ({
   session: Session | undefined;
 }) => {
   const path = usePathname();
+  const t = useTranslations();
   const [storedSession, setSession] = useState<Session | undefined>(pSession);
-  const isSignedIn = useRef<boolean>(!!pSession?.user);
+  const [isSignedIn, setIsSignedIn] = useState<boolean>(!!pSession?.user);
+
+  // Update isSignedIn when storedSession changes
+  useMemo(() => {
+    setIsSignedIn(!!storedSession?.user);
+  }, [storedSession]);
 
   const { data, isLoading, isFetching, isError } = useGetUserById(
-    pSession?.user?.id,
-    !!pSession?.token?.access_token
+    storedSession?.user?.id,
+    !!storedSession?.token?.access_token
   );
   const user = useMemo(() => data, [data]);
 
-  console.log({ user });
+  console.log("AuthProvider state:", {
+    storedSession,
+    pSession,
+    user,
+    isSignedIn,
+    isLoading,
+    isFetching,
+  });
 
   const setSessionToken = useCallback((data: Session) => {
-    isSignedIn.current = true;
+    setIsSignedIn(true);
     setSession(data);
     setCookieSession(data);
   }, []);
@@ -38,14 +52,14 @@ export const AuthProvider = ({
     () =>
       ({
         token: storedSession?.token,
-        user: data,
+        user: data || storedSession?.user,
         account: storedSession?.account,
       } as Session),
     [storedSession, data]
   );
 
   const signOut = useCallback(async () => {
-    isSignedIn.current = false;
+    setIsSignedIn(false);
     setSession(undefined);
     await clearCookieSession();
   }, []);
@@ -63,7 +77,7 @@ export const AuthProvider = ({
       <div className="min-h-screen flex items-center justify-center pt-[300px]">
         <div className="flex flex-col items-center justify-center gap-3">
           <Loader2 className="h-8 w-8 animate-spin text-orange-500" />
-          <div className="text-center text-gray-600">Loading....</div>
+          <div className="text-center text-gray-600">{t("ui.loading")}</div>
         </div>
       </div>
     );
@@ -71,7 +85,7 @@ export const AuthProvider = ({
   if (isError) {
     return (
       <ErrorPage
-        errorMessage="Error on Fetching user data please try again!"
+        errorMessage={t("ui.errorFetchingUserData")}
         onRetryReload
         onLogout={signOut}
       />
@@ -82,7 +96,7 @@ export const AuthProvider = ({
     return (
       <ErrorPage
         hideRetryButton={true}
-        errorMessage="Unauthorized. User is blocked"
+        errorMessage={t("ui.userBlocked")}
         onLogout={signOut}
       />
     );
@@ -93,7 +107,7 @@ export const AuthProvider = ({
         session,
         setSession: setSessionToken,
         signOut,
-        isSignedIn: isSignedIn.current,
+        isSignedIn: isSignedIn,
         allowedResources,
         currentPermissions,
       }}
