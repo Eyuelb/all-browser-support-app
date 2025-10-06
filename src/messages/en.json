@@ -32,7 +32,11 @@
     "instructions": "Instructions",
     "inviteFriends": "+ Invite Friends",
     "playNow": "Play now",
-    "version": "v2"
+    "version": "v2",
+    "wallet": "Wallet",
+    "deposit": "Deposit",
+    "play": "Play",
+    "settings": "Settings"
   },
   "gameModes": {
     "mini": "Mini",

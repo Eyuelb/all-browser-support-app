@@ -20,10 +20,9 @@ export default function BalanceCard({
   const t = useTranslations();
   const { theme } = useTheme();
   const { session } = useAuth();
-  // const user = session?.user; // User data not used in this component
 
-  const userBalance = balance ?? 0; // User balance not available in TUser model
-  const userBonus = bonus ?? 0; // User bonus not available in TUser model
+  const userBalance = balance ?? 0;
+  const userBonus = bonus ?? 0;
 
   return (
     <Card
@@ -38,7 +37,7 @@ export default function BalanceCard({
           <div className="space-y-2">
             <div className="flex items-center gap-2 mb-2">
               <div className="w-8 h-8 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full flex items-center justify-center shadow-lg">
-                <Coins className="h-5 w-5 text-yellow-800 font-bold">S</Coins>
+                <Coins className="h-5 w-5 text-yellow-800 font-bold" />
               </div>
               <div className="text-white/80 text-sm font-medium">
                 {t("common.wallet")}

@@ -45,6 +45,10 @@ export default function AuthForms({ type, tittle }: AuthFormsProps) {
           account: undefined,
           user: {
             id: formData.currentUser.id,
+            email:
+              formData.currentUser.email ||
+              formData.currentUser.phoneNumber ||
+              "",
             phoneNumber: formData.currentUser.phoneNumber,
             active: formData.currentUser.active,
             locale: formData.currentUser.locale,

@@ -45,7 +45,7 @@ export default function BottomNavigation({
             key={item.label}
             variant="ghost"
             onClick={() => onTabChange?.(item.label)}
-            className={`flex flex-col items-center gap-1 h-auto py-3 px-4 ${
+            className={`flex flex-col items-center gap-1 h-auto py-2 px-2 sm:px-4 flex-1 ${
               item.label === activeTab
                 ? "text-yellow-400 bg-yellow-400/10"
                 : actualTheme === "dark"
@@ -54,11 +54,13 @@ export default function BottomNavigation({
             }`}
           >
             <item.icon
-              className={`h-5 w-5 ${
+              className={`h-4 w-4 sm:h-5 sm:w-5 ${
                 item.label === activeTab ? "text-yellow-400" : ""
               }`}
             />
-            <span className="text-xs">{item.label}</span>
+            <span className="text-[10px] sm:text-xs truncate max-w-full">
+              {item.label}
+            </span>
           </Button>
         ))}
       </div>
